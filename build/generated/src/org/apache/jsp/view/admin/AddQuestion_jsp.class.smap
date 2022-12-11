@@ -1,0 +1,18 @@
+SMAP
+AddQuestion_jsp.java
+JSP
+*S JSP
+*F
++ 0 AddQuestion.jsp
+view/admin/AddQuestion.jsp
+*L
+5,30:54
+34:219,11
+35:230,8
+36:238
+36,7:86
+42:263,11
+43:274,8
+44:282
+44,106:95
+*E
