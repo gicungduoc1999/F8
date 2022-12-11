@@ -35,7 +35,7 @@ public class DbContext {
         Connection con;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swp","root", "Phuonganh");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swp","root", "123456");
             System.out.println("Successa");
         } catch (Exception e) {
             System.out.println("Fail");
