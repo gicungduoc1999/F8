@@ -35,12 +35,32 @@ public class CourseDao extends DbContext {
             st = con.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
-                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7),rs.getInt(8) ,rs.getString(9)));
+                int couse_id = rs.getInt(1);
+                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9)));
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
     }
+
+    public List<String> getNameCourses() {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT * FROM course;";
+        try {
+            con = getConnection();
+            st = con.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(2);
+                list.add(name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<Course> getCoursePremium() {
         List<Course> list = new ArrayList<>();
         String sql = "SELECT * FROM swp.course where price > 0;";
@@ -49,12 +69,13 @@ public class CourseDao extends DbContext {
             st = con.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
-                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7),rs.getInt(8) ,rs.getString(9)));
+                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9)));
             }
         } catch (Exception e) {
         }
         return list;
     }
+
     public List<Course> getCourseFree() {
         List<Course> list = new ArrayList<>();
         String sql = "SELECT * FROM swp.course where price = 0;";
@@ -63,13 +84,14 @@ public class CourseDao extends DbContext {
             st = con.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
-                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7),rs.getInt(8) ,rs.getString(9)));
+                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9)));
             }
         } catch (Exception e) {
         }
         return list;
     }
-     public List<TraningProgram> getAllProgram() {
+
+    public List<TraningProgram> getAllProgram() {
         List<TraningProgram> list = new ArrayList<>();
         String sql = "SELECT * FROM swp.training_program;";
         try {
@@ -83,7 +105,8 @@ public class CourseDao extends DbContext {
         }
         return list;
     }
-     public List<Blog> getAllBlog() {
+
+    public List<Blog> getAllBlog() {
         List<Blog> list = new ArrayList<>();
         String sql = "SELECT * FROM swp.blog;";
         try {
@@ -97,7 +120,7 @@ public class CourseDao extends DbContext {
         }
         return list;
     }
-    
+
     public List<Course> getCourse(CourseRequestParam parameter) {
         List<Course> result = new ArrayList<>();
         String sql = "select * from (\n"
@@ -223,7 +246,7 @@ public class CourseDao extends DbContext {
 
         }
     }
-    
+
     public static void main(String[] args) {
         CourseDao dao = new CourseDao();
         List<Course> list = dao.getAllCourse();
