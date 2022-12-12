@@ -17,6 +17,7 @@ public class Question {
      private String lesson_name;
      private String content;
      private String explanation;
+     private int status ;
 
     public Question() {
     }
@@ -29,8 +30,15 @@ public class Question {
         this.explanation = explanation;
     }
 
-   
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+   
     public int getQuestion_id() {
         return question_id;
     }

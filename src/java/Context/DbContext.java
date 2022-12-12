@@ -22,7 +22,7 @@ public class DbContext {
                 String url
                         = System.getProperty("JDBC_URL", "jdbc:mysql://localhost:3306/swp?useSSL=false");
                 String username = System.getProperty("JDBC_USERNAME", "root");
-                String password = System.getProperty("JDBC_PASSWORD", "Phuonganh");
+                String password = System.getProperty("JDBC_PASSWORD", "123456");
                 connection = DriverManager.getConnection(url, username, password);
             } catch (Exception e) {
                 e.printStackTrace();

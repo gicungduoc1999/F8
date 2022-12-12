@@ -5,14 +5,14 @@ package dao;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import Context.DbContext;
+import entity.Course;
 import entity.Question;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,7 +37,7 @@ public class QuestionDao extends DbContext {
             rs = st.executeQuery();
             while (rs.next()) {
                 list.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
-                  
+
             }
         } catch (Exception e) {
         }
@@ -52,8 +52,8 @@ public class QuestionDao extends DbContext {
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                qs = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)
-                , rs.getString(5));
+                qs = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5));
                 qs.setQuestion_id(rs.getInt(1));
                 qs.setCourse_name(rs.getString(2));
                 qs.setLesson_name(rs.getString(3));
@@ -76,8 +76,8 @@ public class QuestionDao extends DbContext {
             stmt.setInt(1, question_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)
-                , rs.getString(5));
+                question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5));
                 question.setQuestion_id(rs.getInt(1));
                 question.setCourse_name(rs.getString(2));
                 question.setLesson_name(rs.getString(3));
@@ -132,7 +132,7 @@ public class QuestionDao extends DbContext {
             st.setString(1, "%" + search + "%");
             rs = st.executeQuery();
             while (rs.next()) {
-               Question question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                Question question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                 question.setQuestion_id(rs.getInt(2));
                 question.setCourse_name(rs.getString(3));
                 question.setLesson_name(rs.getString(4));
@@ -156,7 +156,7 @@ public class QuestionDao extends DbContext {
             st.setInt(2, x);
             rs = st.executeQuery();
             while (rs.next()) {
-               Question question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                Question question = new Question(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                 question.setQuestion_id(rs.getInt(2));
                 question.setCourse_name(rs.getString(3));
                 question.setLesson_name(rs.getString(4));
@@ -169,4 +169,35 @@ public class QuestionDao extends DbContext {
         return a;
     }
 
+    public int addQuestion(Question question) {
+        String sql = "INSERT INTO swp.question\n"
+                + "(course_name, lesson_name, content, explanation, status)\n"
+                + "VALUES( ?, ?, ?, ?, ?);";
+        int id = -1;
+        try {
+            con = getConnection();
+            st = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, question.getCourse_name());
+            st.setString(2, question.getLesson_name());
+            st.setString(3, question.getContent());
+            st.setString(4, question.getExplanation());
+            st.setInt(5, question.getStatus());
+
+            st.executeUpdate();
+
+            //get id
+            ResultSet generatedKeys = st.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            } else {
+                throw new Exception("Creating question failed, no ID obtained.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        return id;
+    }
 }
